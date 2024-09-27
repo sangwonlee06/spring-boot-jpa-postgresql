@@ -7,6 +7,10 @@ import com.sangwon.springbootjpapostgresql.exception.ResourceNotFoundException;
 import com.sangwon.springbootjpapostgresql.repository.ProductRepository;
 import com.sangwon.springbootjpapostgresql.service.ProductService;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,11 +35,24 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductResponseDTO> getAllProducts() {
-        List<Product> products = productRepository.findAll();
-        return products.stream()
+    public List<ProductResponseDTO> getAllProducts(int pageNumber, int pageSize, String sortBy, String sortOrder) {
+        Sort sort = sortOrder.equalsIgnoreCase(Sort.Direction.ASC.name())
+                ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
+
+        Page<Product> pagedProducts = productRepository.findAll(pageable);
+
+        return pagedProducts.getContent()
+                .stream()
                 .map(this::toResponseDto)
                 .collect(Collectors.toList());
+
+//        List<Product> products = productRepository.findAll();
+//        return products.stream()
+//                .map(this::toResponseDto)
+//                .collect(Collectors.toList());
     }
 
     @Override

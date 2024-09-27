@@ -15,4 +15,10 @@ public class ProductResponseDTO {
     private String description;
     private BigDecimal price;
     private String category;
+
+    private int pageNumber;
+    private int pageSize;
+    private int totalElements;
+    private int totalPages;
+    private boolean last;
 }
