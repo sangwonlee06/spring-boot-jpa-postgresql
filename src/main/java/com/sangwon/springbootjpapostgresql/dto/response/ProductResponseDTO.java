@@ -1,5 +1,6 @@
 package com.sangwon.springbootjpapostgresql.dto.response;
 
+import com.sangwon.springbootjpapostgresql.entity.Category;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,7 +26,7 @@ public class ProductResponseDTO {
     private BigDecimal price;
 
     @Schema(description = "Category of the product", example = "Smartphone")
-    private String category;
+    private Long categoryId;
 
     @Schema(description = "Current page number in pagination", example = "0")
     private int pageNumber;

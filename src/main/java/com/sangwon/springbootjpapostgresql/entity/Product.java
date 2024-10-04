@@ -26,7 +26,11 @@ public class Product {
 
     @Column(name = "price", nullable = false)
     private BigDecimal price;
+//
+//    @Column(name = "category", nullable = false)
+//    private String category;
 
-    @Column(name = "category", nullable = false)
-    private String category;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
 }

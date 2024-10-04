@@ -2,8 +2,10 @@ package com.sangwon.springbootjpapostgresql.service.impl;
 
 import com.sangwon.springbootjpapostgresql.dto.request.ProductRequestDTO;
 import com.sangwon.springbootjpapostgresql.dto.response.ProductResponseDTO;
+import com.sangwon.springbootjpapostgresql.entity.Category;
 import com.sangwon.springbootjpapostgresql.entity.Product;
 import com.sangwon.springbootjpapostgresql.exception.ResourceNotFoundException;
+import com.sangwon.springbootjpapostgresql.repository.CategoryRepository;
 import com.sangwon.springbootjpapostgresql.repository.ProductRepository;
 import com.sangwon.springbootjpapostgresql.service.ProductService;
 import org.modelmapper.ModelMapper;
@@ -21,10 +23,12 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final ModelMapper modelMapper;
+    private final CategoryRepository categoryRepository;
 
-    public ProductServiceImpl(ProductRepository productRepository, ModelMapper modelMapper) {
+    public ProductServiceImpl(ProductRepository productRepository, ModelMapper modelMapper, CategoryRepository categoryRepository) {
         this.productRepository = productRepository;
         this.modelMapper = modelMapper;
+        this.categoryRepository = categoryRepository;
     }
 
     @Override
@@ -66,11 +70,13 @@ public class ProductServiceImpl implements ProductService {
     public ProductResponseDTO updateProduct(Long id, ProductRequestDTO productRequestDTO) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product", "id",  id));
+        Category category = categoryRepository.findById(productRequestDTO.getCategoryId())
+                .orElseThrow(() -> new ResourceNotFoundException("Category", "id",  productRequestDTO.getCategoryId()));
 
         product.setName(productRequestDTO.getName());
         product.setDescription(productRequestDTO.getDescription());
         product.setPrice(productRequestDTO.getPrice());
-        product.setCategory(productRequestDTO.getCategory());
+        product.setCategory(category);
 
         Product updatedProduct = productRepository.save(product);
 

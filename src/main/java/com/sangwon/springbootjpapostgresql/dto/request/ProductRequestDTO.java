@@ -1,5 +1,6 @@
 package com.sangwon.springbootjpapostgresql.dto.request;
 
+import com.sangwon.springbootjpapostgresql.entity.Category;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotEmpty;
@@ -27,5 +28,5 @@ public class ProductRequestDTO {
 
     @Schema(description = "Category of the product", example = "Smartphone")
     @NotEmpty(message = "Product category is required.")
-    private String category;
+    private Long categoryId;
 }
