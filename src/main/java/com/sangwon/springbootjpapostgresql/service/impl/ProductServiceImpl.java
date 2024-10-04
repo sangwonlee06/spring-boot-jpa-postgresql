@@ -97,6 +97,8 @@ public class ProductServiceImpl implements ProductService {
 
     // Map ProductRequestDTO to Product entity
     private Product toEntity(ProductRequestDTO productRequestDTO) {
-        return modelMapper.map(productRequestDTO, Product.class);
+        Product product = modelMapper.map(productRequestDTO, Product.class);
+        product.setId(null);
+        return product;
     }
 }

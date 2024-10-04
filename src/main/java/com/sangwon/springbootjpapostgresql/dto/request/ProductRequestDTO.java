@@ -4,6 +4,7 @@ import com.sangwon.springbootjpapostgresql.entity.Category;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
@@ -27,6 +28,6 @@ public class ProductRequestDTO {
     private BigDecimal price;
 
     @Schema(description = "Category of the product", example = "Smartphone")
-    @NotEmpty(message = "Product category is required.")
+    @NotNull(message = "Product category is required.")
     private Long categoryId;
 }
